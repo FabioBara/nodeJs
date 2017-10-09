@@ -9,6 +9,6 @@ app.get("/produtos", function(req, res){
 });
 
 app.listen(3000, function(){
-    console.log("servidor rodando teste 3");
+    console.log("servidor rodando teste 4");
 
 });
