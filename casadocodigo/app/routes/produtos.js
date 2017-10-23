@@ -1,22 +1,18 @@
+
+// nao eh mais utilizado, eh tudo carreado conforme configuracao no express.js via express-load
+//var dbConnectionFactory = require('../infra/dbConnectionFactory');
+
 module.exports = function(app){
-    app.get("/produtos", function(req, res){
+    app.get('/produtos', function(req, res){
 
-        var mySQL = require('mysql');
-        var con = mySQL.createConnection({
-            host : 'localhost',
-            user : 'root',
-            password : '1234',
-            database: 'casadocodigo'
+        //no load-express eh possivel carregar o modulo atraves do caminho do diretorio que esta 
+        //o modulo, fica parecido com a invocacao de uma classe estatica do java 
+        var con = app.infra.dbConnectionFactory();
+
+        con.query('SELECT * FROM casadocodigo.livros',function(err, result){
+            res.render('produtos/lista', {lista:result});
         });
-
-        con.query('SELECT * FROM casadocodigo.livros', function(err, result){
-            res.render("produtos/lista", {lista:result});
-           // res.send(result, {lista:result});
-        });
-
-
         con.end();
-        //res.render("produtos/lista"); 
     });
 }
 
