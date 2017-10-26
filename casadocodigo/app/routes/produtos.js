@@ -8,12 +8,28 @@ module.exports = function(app){
         //no load-express eh possivel carregar o modulo atraves do caminho do diretorio que esta 
         //o modulo, fica parecido com a invocacao de uma classe estatica do java 
         var con = app.infra.dbConnectionFactory();
-        var produtosBanco = new app.infra.ProdutosDAO(con);
+        var produtosDAO = new app.infra.ProdutosDAO(con);
 
-        produtosBanco.lista(function(err, result){
+        produtosDAO.lista(function(err, result){
             res.render('produtos/lista', {lista:result});
         });
         con.end();
+    });
+
+    app.get('/produtos/form', function(req, res){
+        res.render('produtos/form');
+    });
+
+    app.post('/produtos/salva', function(req, res){
+
+        var produto = req.body;
+        
+        var con = app.infra.dbConnectionFactory();
+        var produtosDAO = new app.infra.ProdutosDAO(con);
+
+        produtosDAO.salva(produto, function(err, result){
+            res.render('produtos/lista', {lista:result});
+        }); 
     });
 }
 
