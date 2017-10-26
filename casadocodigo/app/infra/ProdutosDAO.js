@@ -9,7 +9,6 @@ ProdutosDAO.prototype.lista = function(callback){
 }
 
 ProdutosDAO.prototype.salva = function(produto, callback){
-    console.log(produto);
     this._con.query('insert into casadocodigo.livros set ?', produto, callback);
 }
 
