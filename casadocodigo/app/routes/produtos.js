@@ -10,10 +10,22 @@ module.exports = function(app){
         var produtosDAO = new app.infra.ProdutosDAO(con);
 
         produtosDAO.lista(function(err, result){
-            res.render('produtos/lista', {lista:result});
+                res.format({
+                    html: function(){
+                        res.render('produtos/lista', {lista:result});
+                    },
+                    json: function(){
+                        res.json(result);
+                    }
+                });
+
+
+            
         });
         con.end();
     }
+
+
 
     app.get('/produtos', function(req, res){
         listarProdutos(req, res);   
