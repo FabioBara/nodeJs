@@ -3,8 +3,7 @@
 //var dbConnectionFactory = require('../infra/dbConnectionFactory');
 
 module.exports = function(app){
-    app.get('/produtos', function(req, res){
-
+    var listarProdutos = function(req, res){
         //no load-express eh possivel carregar o modulo atraves do caminho do diretorio que esta 
         //o modulo, fica parecido com a invocacao de uma classe estatica do java 
         var con = app.infra.dbConnectionFactory();
@@ -14,6 +13,10 @@ module.exports = function(app){
             res.render('produtos/lista', {lista:result});
         });
         con.end();
+    }
+
+    app.get('/produtos', function(req, res){
+        listarProdutos(req, res);   
     });
 
     app.get('/produtos/form', function(req, res){
@@ -28,7 +31,7 @@ module.exports = function(app){
         var produtosDAO = new app.infra.ProdutosDAO(con);
 
         produtosDAO.salva(produto, function(err, result){
-            res.render('produtos/lista', {lista:result});
+            res.redirect("/produtos");
         }); 
     });
 }
