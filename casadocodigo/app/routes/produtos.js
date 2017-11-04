@@ -16,11 +16,12 @@ module.exports = function(app){
                     },
                     json: function(){
                         res.json(result);
+                    },
+                    xml: function(){
+                        // teria que implementar um funcao que cria um xml pra mim 
+                        res.json(result);
                     }
                 });
-
-
-            
         });
         con.end();
     }
@@ -43,6 +44,7 @@ module.exports = function(app){
         var produtosDAO = new app.infra.ProdutosDAO(con);
 
         produtosDAO.salva(produto, function(err, result){
+            console.log(err);
             res.redirect("/produtos");
         }); 
     });

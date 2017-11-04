@@ -11,7 +11,9 @@ module.exports = function(){
     app.set('view engine','ejs');
     app.set('views', './app/views');
 
+    // configuracao responsavel por aceitar nos posts o tipo de dado, como html e Json
     app.use(bodyParser.urlencoded({extended: true}));
+    app.use(bodyParser.json());
 
     load('routes', {cwd: 'app'})
         .then('infra')
