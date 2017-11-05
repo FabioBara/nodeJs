@@ -9,3 +9,13 @@ describe('ProdutosSuperTest', function(){
         .expect(200, done);
     });
 });
+
+
+describe('ProdutosSuperTestHTML', function(){
+    it('listagem html',function(done){
+        request.get('/produtos')
+        .set('Accept','text/html')
+        .expect('Content-Type', /html/)
+        .expect(200, done);
+    });
+});

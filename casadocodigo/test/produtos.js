@@ -24,7 +24,25 @@ describe('#ProdutosController', function(){
             }
             done();*/
         });
+    });
+});
 
+describe('#ProdutosController2', function(){
 
+    it('#Teste HTML', function(done){
+        var configuracoes = {
+            hostname: 'localhost',
+            port: 3000,
+            path: '/produtos',
+            headers: {
+                'Accept':'text/html'
+            }
+        };
+        http.get(configuracoes, function(res){
+            //text/html; charset=utf-8
+            assert.equal(res.statusCode,200);
+            assert.equal(res.headers['content-type'], 'text/html; charset=utf-8');
+            done();
+        });
     });
 });
