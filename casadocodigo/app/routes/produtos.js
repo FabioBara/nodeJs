@@ -33,13 +33,32 @@ module.exports = function(app){
     });
 
     app.get('/produtos/form', function(req, res){
-        res.render('produtos/form');
+        res.render('produtos/form', {errosValidacao:{}, produto:{}});
     });
 
     app.post('/produtos/salva', function(req, res){
 
         var produto = req.body;
-        
+         //express Validator aqui
+
+         console.log(produto);
+        req.assert('nome', 'O titulo nao pode ser branco').notEmpty();
+        req.assert('preco','O preco esta invalido').isFloat();
+
+        var erros = req.validationErrors();
+
+        if(erros){
+            res.format({
+                html: function(){
+                    res.status(200).render('produtos/form', {errosValidacao:erros, produto:produto});
+                },
+                json: function(){
+                    res.status(400).json(erros);
+                }
+            });
+            return;
+        }
+
         var con = app.infra.dbConnectionFactory();
         var produtosDAO = new app.infra.ProdutosDAO(con);
 

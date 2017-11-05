@@ -18,7 +18,7 @@ var configuracoes = {
         });
     });
 var produto = {
-    nome: "mais sobre node",
+    nome: "",
     descricao: "node, programando em Java Script",
     preco: 100
 }
