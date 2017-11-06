@@ -3,13 +3,17 @@
 //var dbConnectionFactory = require('../infra/dbConnectionFactory');
 
 module.exports = function(app){
-    var listarProdutos = function(req, res){
+    var listarProdutos = function(req, res, next){
         //no load-express eh possivel carregar o modulo atraves do caminho do diretorio que esta 
         //o modulo, fica parecido com a invocacao de uma classe estatica do java 
         var con = app.infra.dbConnectionFactory();
         var produtosDAO = new app.infra.ProdutosDAO(con);
 
         produtosDAO.lista(function(err, result){
+           if(err){
+               return next(err);
+           }
+            console.log(err);
                 res.format({
                     html: function(){
                         res.render('produtos/lista', {lista:result});
@@ -26,10 +30,8 @@ module.exports = function(app){
         con.end();
     }
 
-
-
-    app.get('/produtos', function(req, res){
-        listarProdutos(req, res);   
+    app.get('/produtos', function(req, res, next){
+        listarProdutos(req, res, next);   
     });
 
     app.get('/produtos/form', function(req, res){
@@ -41,16 +43,16 @@ module.exports = function(app){
         var produto = req.body;
          //express Validator aqui
 
-         console.log(produto);
         req.assert('nome', 'O titulo nao pode ser branco').notEmpty();
         req.assert('preco','O preco esta invalido').isFloat();
 
         var erros = req.validationErrors();
 
+        //em caso de erro, o sistema retorna o codigo html de erro correspondente e a msg de erro para a tela
         if(erros){
             res.format({
                 html: function(){
-                    res.status(200).render('produtos/form', {errosValidacao:erros, produto:produto});
+                    res.status(400).render('produtos/form', {errosValidacao:erros, produto:produto});
                 },
                 json: function(){
                     res.status(400).json(erros);
@@ -63,7 +65,6 @@ module.exports = function(app){
         var produtosDAO = new app.infra.ProdutosDAO(con);
 
         produtosDAO.salva(produto, function(err, result){
-            console.log(err);
             res.redirect("/produtos");
         }); 
     });

@@ -1,11 +1,23 @@
 var mySQL = require('mysql');
 function createDBConnection(){
+
+if(!process.env.NODE_ENV){
+
     return mySQL.createConnection({
         host : 'localhost',
         user : 'root',
         password : '1234',
         database: 'casadocodigo'
     });
+}
+    if(process.env.NODE_ENV == 'test'){
+        return mySQL.createConnection({
+            host : 'localhost',
+            user : 'root',
+            password : '1234',
+            database: 'casadocodigo_test'
+        });
+    }
 }
 
 //Wrapper, nao colocar () para nao invocar a funcao, somente retornar a referencia dela.

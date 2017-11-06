@@ -39,7 +39,6 @@ describe('#ProdutosController2', function(){
             }
         };
         http.get(configuracoes, function(res){
-            //text/html; charset=utf-8
             assert.equal(res.statusCode,200);
             assert.equal(res.headers['content-type'], 'text/html; charset=utf-8');
             done();
