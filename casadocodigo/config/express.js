@@ -8,7 +8,9 @@
 module.exports = function(){
 
     var app = express();
-    
+
+    //midleware que carrega os css e etc, tudo que eh estatico
+    app.use(express.static('./app/public'));
     app.set('view engine','ejs');
     app.set('views', './app/views');
 
