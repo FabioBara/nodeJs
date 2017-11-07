@@ -9,9 +9,9 @@ module.exports = function(app){
         con.end();
     });
 
-    app.post('/promocoes', function(req, res){
-        var promo = req.body;
-        console.log(promo);
+    app.post("/promocoes",function(req,res){
+        var promocao = req.body;
+        app.get('io').emit('novaPromocao',promocao);
         res.redirect('promocoes/form');
     });
 }
