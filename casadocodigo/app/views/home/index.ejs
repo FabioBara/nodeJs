@@ -252,7 +252,7 @@
 <script>
     var socket = io();
     socket.on('novaPromocao', function(data){
-        alert('Livro em Promocao' + data.livro.id);
+        alert('Livro em Promocao' + data.livro.id + "\n" + "Nome da promocao eh: " +data.menssagem);
         console.log(data.livro);
     });
 </script>
